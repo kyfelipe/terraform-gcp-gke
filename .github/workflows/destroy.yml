@@ -9,8 +9,8 @@ on:
         required: true
 
 jobs:
-  provision:
-    name: provision
+  destroy:
+    name: destroy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
