@@ -1,0 +1,16 @@
+---
+project:
+  id: "conductor-313814"
+  name: "conductor"
+  region: "us-central1"
+
+network:
+  ip_cidr_range: "10.120.0.0/24"
+
+gke:
+  version_prefix: "1.18."
+  nodes:
+    primary:
+      count: 1
+      version: 1.19.x
+      machine_type: "n1-standard-1"
