@@ -14,3 +14,18 @@ gke:
       count: 1
       version: 1.19.x
       machine_type: "n1-standard-1"
+
+sql:
+  name: "conductor-psql"
+  database_version: "POSTGRES_13"
+  root_password: c8E#2$Aca3T
+  instance: "db-f1-micro"
+  deletion_protection: false
+  availability_type: "ZONAL" # usar "REGIONAL" para produção, assim tera uma distribuição do armazenamento de dados entre zonas
+  disk:
+    type: "PD_SSD"
+    size: 10
+    autoresize: false
+  user:
+    name: conductor
+    password: password

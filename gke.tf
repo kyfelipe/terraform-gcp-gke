@@ -1,13 +1,3 @@
-# variable "gke_username" {
-#   default     = "admin"
-#   description = "gke username"
-# }
-
-# variable "gke_password" {
-#   default     = "123456"
-#   description = "gke password"
-# }
-
 # GKE cluster
 resource "google_container_cluster" "primary" {
   name     = local.config.project.name
@@ -16,17 +6,20 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
-  network    = google_compute_network.vpc.name
-  subnetwork = google_compute_subnetwork.subnet.name
+  network    = google_compute_network.gke_database.name
+  subnetwork = google_compute_subnetwork.gke_database.name
 
-  # master_auth {
-  #   username = var.gke_username
-  #   password = var.gke_password
+  node_config {
+    service_account = google_service_account.account.email
 
-  #   client_certificate_config {
-  #     issue_client_certificate = false
-  #   }
-  # }
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+
+  workload_identity_config {
+    identity_namespace = "${local.config.project.id}.svc.id.goog"
+  }
 
   release_channel {
     channel = "REGULAR"
@@ -64,15 +57,3 @@ resource "google_container_node_pool" "primary_nodes" {
     }
   }
 }
-
-# provider "kubernetes" {
-#   load_config_file = "false"
-
-#   host     = google_container_cluster.primary.endpoint
-#   username = var.gke_username
-#   password = var.gke_password
-
-#   client_certificate     = google_container_cluster.primary.master_auth.0.client_certificate
-#   client_key             = google_container_cluster.primary.master_auth.0.client_key
-#   cluster_ca_certificate = google_container_cluster.primary.master_auth.0.cluster_ca_certificate
-# }

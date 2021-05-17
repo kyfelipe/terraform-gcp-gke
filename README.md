@@ -5,6 +5,7 @@ O repositório é automação que provisiona um cluster Kubernetes na Google Clo
   - Rede VPC
   - Kubernetes Engine
   - Cloud Storage
+  - Cloud SQL
 
 ## :wrench: Requisitos
 
